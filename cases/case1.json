@@ -1,0 +1,118 @@
+{
+  "id": "case1",
+  "titleKey": "CASE1_TITLE",
+  "introKey": "CASE1_INTRO",
+  "initialScene": "crime_scene",
+  "scenes": [
+    {
+      "id": "crime_scene",
+      "nameKey": "SCENE_CRIME",
+      "background": "assets/images/crime_scene.png",
+      "interactables": [
+        {
+          "id": "body",
+          "type": "evidence",
+          "nameKey": "BODY",
+          "x": 45,
+          "y": 65,
+          "evidence": {
+            "id": "body_report",
+            "name": "Relatório do Corpo",
+            "analysisResultKey": "BODY_ANALYSIS_RESULT",
+            "analysisTime": 0
+          }
+        },
+        {
+          "id": "cash",
+          "type": "evidence",
+          "nameKey": "CASH_REGISTER",
+          "x": 70,
+          "y": 40,
+          "evidence": {
+            "id": "cash_register",
+            "name": "Caixa Registradora",
+            "analysisResultKey": "CASH_ANALYSIS_RESULT",
+            "analysisTime": 0
+          }
+        },
+        {
+          "id": "witness1",
+          "type": "npc",
+          "nameKey": "WITNESS",
+          "x": 20,
+          "y": 80,
+          "npcId": "witness"
+        }
+      ]
+    }
+  ],
+  "npcs": [
+    {
+      "id": "witness",
+      "nameKey": "WITNESS",
+      "dialogueId": "witness_dialogue"
+    }
+  ],
+  "dialogues": {
+    "witness_dialogue": [
+      {
+        "speaker": "npc",
+        "textKey": "WITNESS_INTRO"
+      },
+      {
+        "options": [
+          {
+            "textKey": "ASK_SEE",
+            "action": "see_response"
+          },
+          {
+            "textKey": "ASK_ALIBI",
+            "action": "alibi_response"
+          },
+          {
+            "textKey": "THANK_YOU",
+            "action": "end"
+          }
+        ]
+      }
+    ],
+    "see_response": [
+      {
+        "speaker": "npc",
+        "textKey": "WITNESS_RESPONSE_SEE",
+        "noteKey": "NOTE_WITNESS_SEE"
+      },
+      {
+        "options": [
+          {
+            "textKey": "ASK_ALIBI",
+            "action": "alibi_response"
+          },
+          {
+            "textKey": "THANK_YOU",
+            "action": "end"
+          }
+        ]
+      }
+    ],
+    "alibi_response": [
+      {
+        "speaker": "npc",
+        "textKey": "WITNESS_RESPONSE_ALIBI",
+        "noteKey": "NOTE_WITNESS_ALIBI"
+      },
+      {
+        "options": [
+          {
+            "textKey": "ASK_SEE",
+            "action": "see_response"
+          },
+          {
+            "textKey": "THANK_YOU",
+            "action": "end"
+          }
+        ]
+      }
+    ]
+  }
+}

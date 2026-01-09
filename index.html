@@ -1,43 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Valley City Detective Simulator</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Police Simulator: Valley City</title>
+
+  <!-- Preload the mandatory cover image -->
+  <link rel="preload" as="image" href="assets/images/capa_principal.png" />
+
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
-  <div id="app">
-    <header>
-      <h1 id="game-title">Valley City Detective Simulator</h1>
-      <nav>
-        <button id="btn-new-game">Novo Jogo</button>
-        <select id="language-select">
-          <option value="pt-BR">Português</option>
-          <option value="en-US">English</option>
-          <option value="es-ES">Español</option>
-        </select>
-      </nav>
-    </header>
-    <main>
-      <section id="scene-container"></section>
-      <aside id="sidebar">
-        <div id="inventory">
-          <h2 id="inventory-title">Inventário</h2>
-          <ul id="inventory-list"></ul>
+  <!-- SPLASH (uses the mandatory cover) -->
+  <div id="splash" class="splash" aria-hidden="true">
+    <div class="splash__bg" style="background-image:url('assets/images/capa_principal.png');"></div>
+    <div class="splash__overlay"></div>
+
+    <div class="splash__content">
+      <div class="splash__logo">
+        <div class="splash__title">POLICE SIMULATOR</div>
+        <div class="splash__subtitle">VALLEY CITY</div>
+      </div>
+      <div class="splash__hint" id="splashHint">Carregando…</div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="app" aria-live="polite">
+    <!-- Background cinematic layers (cover required) -->
+    <div id="bg" class="bg" aria-hidden="true">
+      <div class="bg__layer bg__layer--cover" style="background-image:url('assets/images/capa_principal.png');"></div>
+      <div class="bg__layer bg__layer--glow"></div>
+      <div class="bg__layer bg__layer--grain"></div>
+      <div class="bg__layer bg__layer--vignette"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand__mark"></div>
+        <div class="brand__text">
+          <div class="brand__name">Police Simulator</div>
+          <div class="brand__city">Valley City</div>
         </div>
-        <div id="notes">
-          <h2 id="notes-title">Notas</h2>
-          <ul id="notes-list"></ul>
+      </div>
+
+      <div class="topbar__right">
+        <div class="lang">
+          <label class="lang__label" for="langSelect" id="langLabel">Idioma</label>
+          <select id="langSelect" class="lang__select" aria-label="Idioma">
+            <option value="pt" selected>Português</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Menu -->
+    <main class="menu">
+      <section class="menu__panel" role="region" aria-label="Menu principal">
+        <div class="menu__hero">
+          <div class="menu__badge" id="badgeText">Simulador de Detetive • Singleplayer</div>
+          <h1 class="menu__title" id="menuTitle">Valley City</h1>
+          <p class="menu__desc" id="menuDesc">
+            Investigue crimes, colete evidências, entreviste testemunhas e interrogue suspeitos.
+            Procedimentos realistas, decisões com consequências.
+          </p>
+        </div>
+
+        <div class="menu__actions">
+          <button id="btnNew" class="btn btn--primary">
+            <span class="btn__label" id="btnNewLabel">Novo Jogo</span>
+            <span class="btn__hint" id="btnNewHint">Iniciar carreira em Valley City</span>
+          </button>
+
+          <button id="btnContinue" class="btn btn--secondary" disabled>
+            <span class="btn__label" id="btnContinueLabel">Continuar</span>
+            <span class="btn__hint" id="btnContinueHint">Retomar último progresso</span>
+          </button>
+
+          <button id="btnCases" class="btn btn--secondary">
+            <span class="btn__label" id="btnCasesLabel">Casos</span>
+            <span class="btn__hint" id="btnCasesHint">Ver casos disponíveis</span>
+          </button>
+
+          <button id="btnMultiplayer" class="btn btn--locked" disabled>
+            <span class="btn__label" id="btnMultiLabel">Multiplayer</span>
+            <span class="btn__hint" id="btnMultiHint">Em breve (próxima atualização)</span>
+          </button>
+
+          <button id="btnCredits" class="btn btn--ghost">
+            <span class="btn__label" id="btnCreditsLabel">Créditos</span>
+            <span class="btn__hint" id="btnCreditsHint">Equipe e direitos</span>
+          </button>
+        </div>
+
+        <div class="menu__footer">
+          <div class="menu__meta">
+            <span class="dot"></span>
+            <span id="metaText">Mobile-first • Web • Vercel/GitHub</span>
+          </div>
+          <div class="menu__meta">
+            <span class="dot dot--blue"></span>
+            <span id="metaSave">Salvamento local: desativado</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right side: cinematic card (uses cover as background motif) -->
+      <aside class="sidecard" aria-label="Painel cinematográfico">
+        <div class="sidecard__frame">
+          <div class="sidecard__bg" style="background-image:url('assets/images/capa_principal.png');"></div>
+          <div class="sidecard__overlay"></div>
+
+          <div class="sidecard__content">
+            <div class="sidecard__headline" id="cardHeadline">Boas-vindas, Detetive.</div>
+            <div class="sidecard__text" id="cardText">
+              Sua missão é aplicar métodos reais: preservar a cena, registrar evidências, validar depoimentos e sustentar conclusões com provas.
+            </div>
+
+            <div class="sidecard__stats">
+              <div class="pill">
+                <div class="pill__k" id="pillK1">Modo</div>
+                <div class="pill__v" id="pillV1">Singleplayer</div>
+              </div>
+              <div class="pill">
+                <div class="pill__k" id="pillK2">Cidade</div>
+                <div class="pill__v" id="pillV2">Valley City</div>
+              </div>
+              <div class="pill">
+                <div class="pill__k" id="pillK3">Meta</div>
+                <div class="pill__v" id="pillV3">Simulação real</div>
+              </div>
+            </div>
+
+            <div class="sidecard__tip" id="tipText">
+              Dica: em um simulador, “provar” é mais importante do que “acertar”.
+            </div>
+          </div>
         </div>
       </aside>
     </main>
-    <div id="dialogue-container" class="hidden">
-      <div id="dialogue-text"></div>
-      <div id="dialogue-options"></div>
+
+    <!-- Modal -->
+    <div id="modalBackdrop" class="modal-backdrop hidden" role="presentation"></div>
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal__header">
+        <div class="modal__title" id="modalTitle">Título</div>
+        <button id="modalClose" class="modal__close" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal__body" id="modalBody"></div>
+      <div class="modal__footer">
+        <button id="modalOk" class="btn btn--primary btn--small">
+          <span class="btn__label" id="modalOkLabel">OK</span>
+        </button>
+      </div>
     </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__left">
+        <span id="footerLeft">© Valley City Detective Simulator</span>
+      </div>
+      <div class="footer__right">
+        <span class="kbd">ESC</span>
+        <span id="footerRight">Fechar janelas</span>
+      </div>
+    </footer>
   </div>
-  <!-- Main entry point -->
-  <script type="module" src="./main.js"></script>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
